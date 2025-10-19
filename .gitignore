@@ -1,0 +1,78 @@
+# Папки віртуального середовища \\\ Virtual Environment folders
+.venv
+venv/
+env/
+ENV/
+*.bak/
+
+# Кеш та артефакти Python \\\ Python cache and artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.mypy_cache/
+.tox/
+
+# Файли IDE та редакторів \\\ IDE and editor files
+.idea/
+.vscode/
+*.code-workspace
+.history/
+
+# Специфічні для ComfyUI та нашої ноди \\\ Specific to ComfyUI and our node
+# --------------------------------------------------------------------
+
+# Ігноруємо папку з завантаженими LLM моделями (найважливіше правило!)
+# \\\ Ignore the folder with downloaded LLM models (most important rule!)
+models/
+
+# Ігноруємо логи та інші тимчасові файли ComfyUI
+# \\\ Ignore logs and other ComfyUI temporary files
+*.log
+output/
+temp/
+custom_nodes/ComfyUI-Manager/
+custom_nodes/ComfyUI-Image-Filters/
+custom_nodes/ComfyUI-VideoHelperSuite/
+
+# Ігноруємо всі файли .json за замовчуванням...
+# \\\ Ignore all .json files by default...
+*.json
+
+# ... АЛЕ НЕ ігноруємо наш конфігураційний файл!
+# \\\ ... BUT DO NOT ignore our configuration file!
+!prompt_config.json
+
+# Також НЕ ігноруємо requirements.txt, якщо він є
+# \\\ Also DO NOT ignore requirements.txt if it exists
+!requirements.txt
+
+# Інші файли (ключі, тимчасові файли, ваші заготовки) \\\ Other files (keys, temp files, your stubs)
+# --------------------------------------------------------------------
+.env
+.tmp
+.cache
+config.ini
+snapshots/
+.openart_key
+comfyworkflows_sharekey
+github-stats-cache.json
+pip_overrides.json
+check2.sh

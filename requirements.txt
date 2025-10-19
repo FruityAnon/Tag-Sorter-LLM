@@ -1,0 +1,13 @@
+# Інструменти для збірки llama-cpp-python \\\ Build tools for llama-cpp-python
+cmake
+ninja
+scikit-build-core
+
+# Головна бібліотека для GGUF \\\ Main library for GGUF
+llama-cpp-python>=0.2.79
+
+# Допоміжні бібліотеки \\\ Helper libraries
+huggingface-hub>=0.20.0
+packaging>=24.0
+requests>=2.32.3
+hf_xet
