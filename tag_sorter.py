@@ -84,9 +84,9 @@ os.makedirs(MODELS_DIR, exist_ok=True)
 
 class TagSorter:
     MODEL_LIST: Dict[str, Dict] = {
-        "Llama-3.2-3B Instruct Uncensored": {
-            "repo": "mradermacher/Llama-3.2-3B-Instruct-uncensored-GGUF",
-            "file": "Llama-3.2-3B-Instruct-uncensored.Q4_K_M.gguf"
+        "Hermes-2-Pro-Llama-3-8B LowCensored": {
+            "repo": "NousResearch/Hermes-2-Pro-Llama-3-8B-GGUF",
+            "file": "Hermes-2-Pro-Llama-3-8B-Q4_K_M.gguf"
         }
     }
 
@@ -95,7 +95,6 @@ class TagSorter:
         self.task_instruction = self.load_instruction()
 
     def load_instruction(self) -> str:
-        """Завантажує інструкцію з файлу або використовує стандартну."""
         try:
             config_path = os.path.join(NODE_DIR, "prompt_config.json")
             with open(config_path, 'r', encoding='utf-8') as f:
@@ -105,36 +104,16 @@ class TagSorter:
             return instruction
         except Exception as e:
             print(f"### TagSorter: Using default instruction. Error loading config: {e}")
-            return """Analyze the input tags and categorize them into exactly 4 groups. Return ONLY valid JSON without any additional text.
-
-Categories:
-1. "character" - person, face, body features, gender, age, appearance
-2. "clothing" - clothes, accessories, shoes, hats, jewelry
-3. "location" - background, environment, setting, pose, position
-4. "enhancement" - quality, style, lighting, camera, artistic effects
-
-Return format:
-{
-    "character": ["tag1", "tag2"],
-    "clothing": ["tag1", "tag2"], 
-    "location": ["tag1", "tag2"],
-    "enhancement": ["tag1", "tag2"]
-}"""
+            return """Analyze the input tags... (Ваша інструкція)""" # Скорочено для прикладу
 
     @classmethod
     def INPUT_TYPES(cls) -> Dict:
         return {
             "required": {
                 "raw_tags": ("STRING", {"multiline": True, "default": "Paste tags here..."}),
-                "model_name": (list(cls.MODEL_LIST.keys()), {"default": "Phi-3 Mini (Fast)"}),
+                "model_name": (list(cls.MODEL_LIST.keys()), {"default": "Nous Hermes 2 Pro (Llama-3 8B)"}),
                 "gpu_layers": ("INT", {"default": -1, "min": -1, "max": 999}),
             },
-            "optional": {
-                "preview_char": ("STRING", {"multiline": True, "default": "Character tags will appear here..."}),
-                "preview_cloth": ("STRING", {"multiline": True, "default": "Clothing tags will appear here..."}),
-                "preview_loc": ("STRING", {"multiline": True, "default": "Location & pose tags will appear here..."}),
-                "preview_enhance": ("STRING", {"multiline": True, "default": "Enhancement tags will appear here..."}),
-            }
         }
 
     RETURN_TYPES = ("STRING", "STRING", "STRING", "STRING")
@@ -143,7 +122,6 @@ Return format:
     CATEGORY = "Prompting"
 
     def load_model(self, model_info: Dict, gpu_layers: int) -> Optional[Llama]:
-        """Завантажує модель з кешуванням."""
         repo_id, filename = model_info["repo"], model_info["file"]
         cache_key = f"{repo_id}/{filename}"
 
@@ -174,7 +152,7 @@ Return format:
             model = Llama(
                 model_path=local_model_path,
                 n_gpu_layers=gpu_layers,
-                n_ctx=4096,
+                n_ctx=8192,
                 verbose=False
             )
             CACHED_MODELS[cache_key] = model
@@ -184,26 +162,29 @@ Return format:
             return f"FATAL: Could not load model. Error: {e}"
 
     def clean_json_response(self, text: str) -> str:
-        """Очищує JSON, знаходить та повертає виключно блок {...}."""
-        start_idx = text.find('{')
-        end_idx = text.rfind('}')
-
-        if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
-            return text[start_idx:end_idx+1]
-
-        return ""
+        try:
+            start_brace_index = text.find('{')
+            if start_brace_index == -1: return ""
+            brace_count = 0
+            end_brace_index = -1
+            for i, char in enumerate(text[start_brace_index:]):
+                if char == '{': brace_count += 1
+                elif char == '}': brace_count -= 1
+                if brace_count == 0:
+                    end_brace_index = start_brace_index + i
+                    break
+            if end_brace_index != -1:
+                return text[start_brace_index : end_brace_index + 1]
+            else: return ""
+        except Exception: return ""
 
     def parse_llm_response(self, response_text: str) -> Dict:
-        """Парсить відповідь LLM у JSON з покращеною обробкою помилок."""
         cleaned_json = self.clean_json_response(response_text)
-
         if not cleaned_json:
             print("### TagSorter: No valid JSON block found, using fallback parser.")
             return self.fallback_parse(response_text)
-
         try:
             data = json.loads(cleaned_json)
-            # Переконуємось, що всі категорії існують
             for key in ["character", "clothing", "location", "enhancement"]:
                 data.setdefault(key, [])
             return data
@@ -212,93 +193,45 @@ Return format:
             return self.fallback_parse(response_text)
 
     def fallback_parse(self, text: str) -> Dict:
-        """Резервний парсинг якщо JSON не валідний."""
         result = {"character": [], "clothing": [], "location": [], "enhancement": []}
-
         lines = text.split('\n')
         current_category = None
-
         for line in lines:
             line = line.strip().lower()
-
-            if 'character' in line:
-                current_category = "character"
-            elif 'clothing' in line or 'clothes' in line:
-                current_category = "clothing"
-            elif 'location' in line or 'background' in line:
-                current_category = "location"
-            elif 'enhancement' in line or 'quality' in line:
-                current_category = "enhancement"
+            if 'character' in line: current_category = "character"
+            elif 'clothing' in line or 'clothes' in line: current_category = "clothing"
+            elif 'location' in line or 'background' in line: current_category = "location"
+            elif 'enhancement' in line or 'quality' in line: current_category = "enhancement"
             elif current_category and line and not line.startswith(('{', '}', '[', ']')):
                 tags = [tag.strip() for tag in line.split(',') if tag.strip()]
                 result[current_category].extend(tags)
-
         return result
 
-    def safe_convert_parameters(self, max_tokens: Any, temperature: Any) -> Tuple[int, float]:
-        try:
-            if isinstance(max_tokens, str):
-                max_tokens = int(max_tokens) if max_tokens.isdigit() else 400
-            elif not isinstance(max_tokens, int):
-                max_tokens = 400
-        except (ValueError, TypeError):
-            max_tokens = 400
-
-        try:
-            if isinstance(temperature, str):
-                temperature = float(temperature) if temperature.replace('.', '').isdigit() else 0.1
-            elif not isinstance(temperature, (int, float)):
-                temperature = 0.1
-        except (ValueError, TypeError):
-            temperature = 0.1
-
-        # Обмеження значень
-        max_tokens = max(100, min(2000, max_tokens))
-        temperature = max(0.0, min(1.0, temperature))
-
-        return max_tokens, temperature
-
-    def sort_tags(self, raw_tags: str, model_name: str, gpu_layers: int, **kwargs) -> Dict:
-        """Основна функція сортування тегів."""
-        # --- Зміни тут ---
-        # Параметри тепер жорстко задані в коді
+    def sort_tags(self, raw_tags: str, model_name: str, gpu_layers: int, **kwargs) -> Tuple[str, ...]:
         max_tokens = 800
-        temperature = 0.1
+        temperature = 0.0
         print(f"### TagSorter: Parameters (hardcoded) - max_tokens={max_tokens}, temperature={temperature}")
-        # -----------------
 
-        # Перевірка на порожній ввід
+        empty_result = ("", "", "", "")
         if not raw_tags or not raw_tags.strip() or raw_tags == "Paste tags here...":
             print("### TagSorter: Input is empty, ignoring.")
-            empty_result = ("", "", "", "")
-            return {
-                "result": empty_result,
-                "ui": {
-                    "preview_char": [""], "preview_cloth": [""],
-                    "preview_loc": [""], "preview_enhance": [""]
-                }
-            }
+            # --- ЗМІНА 2: Повертаємо простий кортеж, а не словник з "ui" ---
+            return empty_result
 
-        # Перевірка на помилки залежностей
         if self.issues["errors"]:
             error_report = "ERROR: Cannot run. Issues:\n\n" + "\n".join([f"- {e}" for e in self.issues["errors"]])
-            empty_result = ("", "", "", "")
-            return {"result": empty_result, "ui": {"preview_char": [error_report]}}
+            return (error_report,) + empty_result[1:]
 
-        # Завантаження моделі
         model_info = self.MODEL_LIST[model_name]
         model = self.load_model(model_info, gpu_layers)
 
         if isinstance(model, str):
-            empty_result = ("", "", "", "")
-            return {"result": (model,) + empty_result[1:], "ui": {"preview_char": [model]}}
+            return (model,) + empty_result[1:]
 
-        # Формуємо запит
         final_prompt = f"{self.task_instruction}\n\nInput: '{raw_tags}'\nOutput:"
 
         try:
             print("### TagSorter: Generating response...")
-            # Генерація відповіді
             response = model(
                 prompt=final_prompt,
                 max_tokens=max_tokens,
@@ -308,36 +241,25 @@ Return format:
             )
 
             llm_output = response['choices'][0]['text'].strip()
-            print(f"### TagSorter: LLM response received ({len(llm_output)} chars)")
+            print("--- RAW LLM OUTPUT ---\n", ll_output, "\n--- END RAW LL-M OUTPUT ---")
+            print(f"### TagSorter: LLM response received ({len(ll_output)} chars)")
 
-            # Парсинг результату
-            sorted_tags_dict = self.parse_llm_response(llm_output)
+            sorted_tags_dict = self.parse_llm_response(ll_output)
 
-            # Форматування виводу
             char_tags = ", ".join(sorted_tags_dict.get("character", []))
             cloth_tags = ", ".join(sorted_tags_dict.get("clothing", []))
             loc_tags = ", ".join(sorted_tags_dict.get("location", []))
             enhance_tags = ", ".join(sorted_tags_dict.get("enhancement", []))
 
             print("### TagSorter: Tags sorted successfully.")
-
             result_tuple = (char_tags, cloth_tags, loc_tags, enhance_tags)
 
-            return {
-                "result": result_tuple,
-                "ui": {
-                    "preview_char": [char_tags],
-                    "preview_cloth": [cloth_tags],
-                    "preview_loc": [loc_tags],
-                    "preview_enhance": [enhance_tags]
-                }
-            }
+            return result_tuple
 
         except Exception as e:
             error_msg = f"ERROR during tag sorting: {e}"
             print(error_msg)
-            empty_result = ("", "", "", "")
-            return {"result": (error_msg,) + empty_result[1:], "ui": {"preview_char": [error_msg]}}
+            return (error_msg,) + empty_result[1:]
 
 if 'llama_cpp' in sys.modules:
     NODE_CLASS_MAPPINGS = {"TagSorterNode": TagSorter}

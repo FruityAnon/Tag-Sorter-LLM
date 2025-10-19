@@ -7,34 +7,25 @@ import re
 
 
 class TokenBlending:
-    # --- ПОЧАТОК ЗМІН 1 --- \\\ START OF CHANGES 1 ---
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                # Назви змінено на валідні імена змінних
-                # \\\ Names changed to valid variable names
-                "Unit_spec": ("STRING", {"default": ""}),
-                "Eyes_Hair": ("STRING", {"default": ""}),
-                "Body_details_Pose": ("STRING", {"default": ""}),
-                "Clothing": ("STRING", {"default": ""}),
-                "Background": ("STRING", {"default": ""}),
-                "Add_details": ("STRING", {"default": ""}),
+                "unit_spec": ("STRING", {"default": ""}),
+                "eyes_hair": ("STRING", {"default": ""}),
+                "body_details_pose": ("STRING", {"default": ""}),
+                "clothing": ("STRING", {"default": ""}),
+                "background": ("STRING", {"default": ""}),
+                "add_details": ("STRING", {"default": ""}),
             }
         }
 
     RETURN_TYPES = ("STRING",)
-
-    # Додано назву для виходу
-    # \\\ Added a name for the output
-    RETURN_NAMES = ("Text Encode",)
-
+    RETURN_NAMES = ("blended_text",)
     FUNCTION = "process"
     CATEGORY = "Custom/TextBlending"
 
     def process(self, unit_spec, eyes_hair, body_details_pose, clothing, background, add_details):
-        # Список аргументів тепер відповідає INPUT_TYPES
-        # \\\ The argument list now matches INPUT_TYPES
         inputs = [
             unit_spec,
             eyes_hair,
@@ -43,7 +34,6 @@ class TokenBlending:
             background,
             add_details,
         ]
-        # --- КІНЕЦЬ ЗМІН 1 --- \\\ END OF CHANGES 1 ---
 
         blended = ""
         first_block_added = False
