@@ -43,7 +43,7 @@ Open your browser and navigate to `chrome://extensions`.
 
 In the top right corner, enable ***"Developer mode"***.
 
-![In the top right corner, enable ***"Developer mode"***.](images_rep\chorme_developer_mode.png)
+![In the top right corner, enable ***"Developer mode"***.](images_rep/chorme_developer_mode.png)
 
 Click the ***"Load unpacked"*** button.
 
