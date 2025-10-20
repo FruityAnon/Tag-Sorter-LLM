@@ -51,7 +51,7 @@ Paste the copied text into the `raw_tags` field in the **Tag Sorter ✨** node i
 ## Installing the Browser Extensions
 
 ### **Google Chrome**
-Open your browser and navigate to `chrome://extensions`.
+Open your browser and navigate to `chrome://extensions`
 
 In the top right corner, enable ***"Developer mode"***.
 
@@ -68,9 +68,9 @@ Tag-Sorter-LLM\Browser-Universal-Tag-Copier\comfyui_tag_importer_chrome
 
 ### **Mozilla Firefox:**
 
-Open your browser and navigate to `about:addons`.
+Open your browser and navigate to `about:addons`
 
-Drag and drop the application file `comfyui_tag_importer_firefox.xpi`.
+Drag and drop the application file `comfyui_tag_importer_firefox.xpi`
 
 ## 📖 Component Descriptions (Nodes)
 ### This suite contains three custom nodes for ComfyUI.
