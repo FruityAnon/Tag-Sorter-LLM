@@ -9,6 +9,17 @@ With an LLM-based sorter and convenient browser extensions, you can transform a 
 ![](images_rep/all_node.png)
 
 ## Workflow: How It Works
+
+### **Enable or disable Clipboard History in Windows**
+
+**⚠️ Step 0 (Highly recommended): ⚠️**
+
+1. Firstly, press the ` Windows + V` keys simultaneously for opening clipboard history.
+
+2. If this feature is disabled, then click on Turn On.
+
+![](images_rep/enable-clipboard-history-W11.png)
+
 **Step 1:** Copying tags in the browser. Use the extension on one of the supported sites to instantly copy all image tags.
 
 **Step 2**: Pasting and sorting in ComfyUI. Paste the copied tags into the ***Tag Sorter ✨*** node. The model will automatically analyze and distribute them into categories.
