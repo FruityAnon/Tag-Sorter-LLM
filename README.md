@@ -91,7 +91,7 @@ This node takes a single large string of tags and uses a local LLM to sort them 
 
 ### Text Blending 📦
 
-This node is for combining text blocks. It takes up to 6 strings and joins them into a single prompt, separated by the special keyword `BREAK`. This allows you to use the syntax for controlling prompt weights in ComfyUI.
+This node is for combining text blocks. It takes up to 6 strings and joins them into a single prompt, separated by the special keyword `BREAK` (See the end of the README). This allows you to use the syntax for controlling prompt weights in ComfyUI.
 
 ![](images_rep/node_textBlending.png)
 
