@@ -35,7 +35,7 @@ Go to the folder where your files are located `run_nvidia_gpu.bat`, `run_cpu.bat
 
 Move the installation file `Install-Tag-Sorter-LLM .bat` here:
 ```
-https://github.com/FruityAnon/Tag-Sorter-LLM/blob/main/Install-Tag-Sorter-LLM%20.bat
+sha256:96d24ce6a5f498f7c2dc5af9188c39aad639ff4b4b8d83e331203b28775f2d4a
 ```
 
 The **Tag Sorter ✨** node has a built-in dependency manager and will automatically install `llama-cpp-python` on the first run.
