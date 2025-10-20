@@ -12,63 +12,6 @@ import importlib.metadata
 import re
 from typing import Tuple, Dict, List, Optional, Any
 
-# Менеджер залежностей \\ Dependency Manager
-def install_package(command: list) -> bool:
-    try:
-        print(f"    -> Running command: {' '.join(command)}")
-        full_command = [sys.executable, "-m"] + command
-        subprocess.run(full_command, check=True, capture_output=True, text=True, encoding='utf-8')
-        print(f"    -> Command successful.")
-        return True
-    except subprocess.CalledProcessError as e:
-        print(f"    -> [COMMAND FAILED]. Error: {e.stderr[:1000]}...")
-        return False
-
-def manage_dependencies() -> Dict:
-    print("─" * 50)
-    print("### Smart Deps Manager: Tag Sorter ###")
-    issues = {"errors": [], "restart_needed": False}
-
-    try:
-        importlib.metadata.version("llama-cpp-python")
-        print("  - [✅ OK] llama-cpp-python is installed.")
-    except importlib.metadata.PackageNotFoundError:
-        print("  - [⚠️ WARN] llama-cpp-python not found. Starting one-time setup process...")
-        issues["restart_needed"] = True
-
-        req_path = os.path.join(os.path.dirname(__file__), "requirements.txt")
-        if not os.path.exists(req_path):
-            issues["errors"].append("requirements.txt not found!")
-            return issues
-
-        print("\n  Step 1: Installing build tools...")
-        if not install_package(["pip", "install", "-r", req_path]):
-            issues["errors"].append("Failed to install build tools from requirements.txt.")
-            return issues
-
-        print("\n  Step 2: Installing llama-cpp-python with CUDA support...")
-        try:
-            env = os.environ.copy()
-            env['CMAKE_ARGS'] = "-DLLAMA_CUBLAS=on"
-            command = [sys.executable, "-m", "pip", "install", "llama-cpp-python"]
-            subprocess.run(command, check=True, capture_output=True, text=True, encoding='utf-8', env=env)
-            print("    -> Successfully compiled and installed llama-cpp-python with CUDA support!")
-        except subprocess.CalledProcessError as e:
-            error_msg = "Failed to compile llama-cpp-python with CUDA. Check NVIDIA CUDA Toolkit installation."
-            print(f"    -> [FATAL ERROR] {error_msg}")
-            print(f"    -> Error: {e.stderr[:1000]}...")
-            issues["errors"].append(error_msg)
-
-    if issues["restart_needed"] and not issues["errors"]:
-        issues["errors"].append("One-time setup is complete. PLEASE RESTART COMFYUI.")
-
-    if not issues["errors"]:
-        print("### All dependencies are OK. ###")
-    print("─" * 50)
-    return issues
-
-dependency_issues = manage_dependencies()
-
 # Main Node Code
 try:
     from llama_cpp import Llama
