@@ -37,8 +37,6 @@ Move the installation file `Install-Tag-Sorter-LLM.bat` here:
 
 ### [Install Tag Sorter LLM.bat](https://github.com/FruityAnon/Tag-Sorter-LLM/releases/download/v1.0/Install-Tag-Sorter-LLM.bat)
 
-The **Tag Sorter ✨** node has a built-in dependency manager and will automatically install `llama-cpp-python` on the first run.
-
 ## How to Use the Extension
 Go to one of the supported sites:
 
