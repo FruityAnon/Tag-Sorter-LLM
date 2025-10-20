@@ -31,7 +31,7 @@ A **button** will appear on the website under the image tags that copies the tag
 **Step 3 (Optional):** Combining the sorted tags. Connect the outputs from the `Tag Sorter ✨` with the `Text Blending 📦` node to assemble the categories into a single prompt, ready to be passed to the KSampler.
 
 # 🛠️ Installation
-Go to the folder where your files are located `run_nvidia_gpu.bat`, `run_cpu.bat`, `run_nvidia_gpu_fast_fp16_accumulation.bat`
+Go to the folder with your ComfyUI and where your files are located: `run_nvidia_gpu.bat`, `run_cpu.bat`, `run_nvidia_gpu_fast_fp16_accumulation.bat`
 
 Move the installation file `Install-Tag-Sorter-LLM .bat` here:
 
