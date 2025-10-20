@@ -34,9 +34,8 @@ A **button** will appear on the website under the image tags that copies the tag
 Go to the folder where your files are located `run_nvidia_gpu.bat`, `run_cpu.bat`, `run_nvidia_gpu_fast_fp16_accumulation.bat`
 
 Move the installation file `Install-Tag-Sorter-LLM .bat` here:
-```
+
 [Installation: .bat](https://github.com/FruityAnon/Tag-Sorter-LLM/releases/download/v1.0/Install-Tag-Sorter-LLM.bat)
-```
 
 The **Tag Sorter ✨** node has a built-in dependency manager and will automatically install `llama-cpp-python` on the first run.
 
