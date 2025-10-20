@@ -14,7 +14,7 @@ With an LLM-based sorter and convenient browser extensions, you can transform a 
 
 **⚠️ Step 0 (Highly recommended): ⚠️**
 
-1. Firstly, press the ` Windows + V` keys simultaneously for opening clipboard history.
+1. Firstly, press the ` Windows + C or V` keys simultaneously for opening clipboard history.
 
 2. If this feature is disabled, then click on Turn On.
 
