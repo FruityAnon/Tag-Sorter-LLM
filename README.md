@@ -100,3 +100,7 @@ This node is for combining text blocks. It takes up to 6 strings and joins them 
 This node acts as a "junction box" for text. It takes up to 6 text strings and passes them on. This helps keep large and complex workflows clean and organized, avoiding a "web" of connections.
 
 ![](images_rep/node_textHub.png)
+
+### Example of selective tag management in ComfyUI
+
+![](images_rep/preview_node_textHub_textBlending.png)
