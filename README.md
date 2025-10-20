@@ -6,7 +6,7 @@ The LLM Tag Sorter Suite is a set of tools designed to automate and significantl
 
 With an LLM-based sorter and convenient browser extensions, you can transform a chaotic set of tags into clearly organized categories.
 
-![](images_rep\all_node.png)
+![](images_rep/all_node.png)
 
 ## Workflow: How It Works
 **Step 1:** Copying tags in the browser. Use the extension on one of the supported sites to instantly copy all image tags.
@@ -19,7 +19,9 @@ With an LLM-based sorter and convenient browser extensions, you can transform a 
 Navigate to the `ComfyUI\custom_nodes\` directory.
 Clone this repository using the command:
 
-`git clone https://github.com/FruityAnon/Tag-Sorter-LLM.git`
+```
+git clone https://github.com/FruityAnon/Tag-Sorter-LLM.git
+```
 
 The **Tag Sorter ✨** node has a built-in dependency manager and will automatically install `llama-cpp-python` on the first run.
 
@@ -45,9 +47,12 @@ In the top right corner, enable ***"Developer mode"***.
 
 Click the ***"Load unpacked"*** button.
 
-![](images_rep\chrome_Load_Unpacked.png)
+![](images_rep/chrome_Load_Unpacked.png)
 
-Select the `comfyui_tag_importer_chrome` folder with the extension files, located at `Tag-Sorter-LLM\Browser-Universal-Tag-Copier\comfyui_tag_importer_chrome`.
+Select the `comfyui_tag_importer_chrome` folder with the extension files, located at 
+```
+Tag-Sorter-LLM\Browser-Universal-Tag-Copier\comfyui_tag_importer_chrome
+```
 
 ### **Mozilla Firefox:**
 
@@ -60,8 +65,6 @@ Drag and drop the application file `comfyui_tag_importer_firefox.xpi`.
 
 ### Tag Sorter ✨
 
-![](images_rep\node_tagSorter.png)
-
 This node takes a single large string of tags and uses a local LLM to sort them into four categories:
 
 **character:** Character description (appearance, body, facial features).
@@ -72,14 +75,16 @@ This node takes a single large string of tags and uses a local LLM to sort them 
 
 **enhancement:** Tags for improving image quality (style, lighting, detail).
 
-### Text Blending 📦
+![](images_rep/node_tagSorter.png)
 
-![](images_rep\node_textBlending.png)
+### Text Blending 📦
 
 This node is for combining text blocks. It takes up to 6 strings and joins them into a single prompt, separated by the special keyword `BREAK`. This allows you to use the syntax for controlling prompt weights in ComfyUI.
 
+![](images_rep/node_textBlending.png)
+
 ### Text Hub 📝
 
-![](images_rep\node_textHub.png)
-
 This node acts as a "junction box" for text. It takes up to 6 text strings and passes them on. This helps keep large and complex workflows clean and organized, avoiding a "web" of connections.
+
+![](images_rep/node_textHub.png)
