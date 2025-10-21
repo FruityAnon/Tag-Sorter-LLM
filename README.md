@@ -28,8 +28,6 @@ Open the page with the image whose tags you want to use. Click on the extension 
 
 Paste the copied text into the `raw_tags` field in the **Tag Sorter ✨** node in ComfyUI.
 
-Copying tags in the browser. Use the extension on one of the supported sites to instantly copy all image tags. 
-
 A **button** will appear on the website under the image tags that copies the tags to your clipboard.
 
 ![](images_rep/site_button.png)
