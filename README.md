@@ -36,7 +36,7 @@ A **button** will appear on the website under the image tags that copies the tag
 
 #### Select these items, you won't need the rest:
 
-![](images_rep/chrome_Load_Unpacked.png)
+![](Build_Tools_for_Visual_Studio_2022.png)
 
 Go to the folder with your ComfyUI and where your files are located: `run_nvidia_gpu.bat`, `run_cpu.bat`, `run_nvidia_gpu_fast_fp16_accumulation.bat`
 
