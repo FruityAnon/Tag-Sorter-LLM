@@ -14,7 +14,7 @@ With an LLM-based sorter and convenient browser extensions, you can transform a 
 
 **⚠️ Step 0 (Highly recommended): ⚠️**
 
-1. Firstly, press the ` Windows + V` keys simultaneously for opening clipboard history.
+1. Firstly, press the ` Windows + C or V` keys simultaneously for opening clipboard history.
 
 2. If this feature is disabled, then click on Turn On.
 
@@ -31,13 +31,11 @@ A **button** will appear on the website under the image tags that copies the tag
 **Step 3 (Optional):** Combining the sorted tags. Connect the outputs from the `Tag Sorter ✨` with the `Text Blending 📦` node to assemble the categories into a single prompt, ready to be passed to the KSampler.
 
 # 🛠️ Installation
-Go to the folder where your files are located `run_nvidia_gpu.bat`, `run_cpu.bat`, `run_nvidia_gpu_fast_fp16_accumulation.bat`
+Go to the folder with your ComfyUI and where your files are located: `run_nvidia_gpu.bat`, `run_cpu.bat`, `run_nvidia_gpu_fast_fp16_accumulation.bat`
 
-Move the installation file `Install-Tag-Sorter-LLM .bat` here:
+Move the installation file `Install-Tag-Sorter-LLM.bat` here:
 
 ### [Install Tag Sorter LLM.bat](https://github.com/FruityAnon/Tag-Sorter-LLM/releases/download/v1.0/Install-Tag-Sorter-LLM.bat)
-
-The **Tag Sorter ✨** node has a built-in dependency manager and will automatically install `llama-cpp-python` on the first run.
 
 ## How to Use the Extension
 Go to one of the supported sites:
@@ -53,7 +51,7 @@ Paste the copied text into the `raw_tags` field in the **Tag Sorter ✨** node i
 ## Installing the Browser Extensions
 
 ### **Google Chrome**
-Open your browser and navigate to `chrome://extensions`.
+Open your browser and navigate to `chrome://extensions`
 
 In the top right corner, enable ***"Developer mode"***.
 
@@ -70,9 +68,9 @@ Tag-Sorter-LLM\Browser-Universal-Tag-Copier\comfyui_tag_importer_chrome
 
 ### **Mozilla Firefox:**
 
-Open your browser and navigate to `about:addons`.
+Open your browser and navigate to `about:addons`
 
-Drag and drop the application file `comfyui_tag_importer_firefox.xpi`.
+Drag and drop the application file `comfyui_tag_importer_firefox.xpi`
 
 ## 📖 Component Descriptions (Nodes)
 ### This suite contains three custom nodes for ComfyUI.
@@ -93,7 +91,7 @@ This node takes a single large string of tags and uses a local LLM to sort them 
 
 ### Text Blending 📦
 
-This node is for combining text blocks. It takes up to 6 strings and joins them into a single prompt, separated by the special keyword `BREAK`. This allows you to use the syntax for controlling prompt weights in ComfyUI.
+This node is for combining text blocks. It takes up to 6 strings and joins them into a single prompt, separated by the special keyword `BREAK` (See the end of the README). This allows you to use the syntax for controlling prompt weights in ComfyUI.
 
 ![](images_rep/node_textBlending.png)
 
@@ -102,3 +100,7 @@ This node is for combining text blocks. It takes up to 6 strings and joins them 
 This node acts as a "junction box" for text. It takes up to 6 text strings and passes them on. This helps keep large and complex workflows clean and organized, avoiding a "web" of connections.
 
 ![](images_rep/node_textHub.png)
+
+### Example of selective tag management in ComfyUI
+
+![](images_rep/preview_node_textHub_textBlending.png)
