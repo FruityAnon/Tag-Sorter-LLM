@@ -25,6 +25,7 @@ NODE_DIR = os.path.dirname(__file__)
 MODELS_DIR = os.path.join(NODE_DIR, "models")
 os.makedirs(MODELS_DIR, exist_ok=True)
 
+
 class TagSorter:
     MODEL_LIST: Dict[str, Dict] = {
         "Hermes-2-Pro-Llama-3-8B LowCensored": {
@@ -34,7 +35,8 @@ class TagSorter:
     }
 
     def __init__(self):
-        self.issues = dependency_issues
+        # --- ВИДАЛЕНО РЯДОК, ЩО ВИКЛИКАВ ПОМИЛКУ ---
+        # self.issues = dependency_issues
         self.task_instruction = self.load_instruction()
 
     def load_instruction(self) -> str:
@@ -47,14 +49,14 @@ class TagSorter:
             return instruction
         except Exception as e:
             print(f"### TagSorter: Using default instruction. Error loading config: {e}")
-            return """Analyze the input tags... (Ваша інструкція)""" # Скорочено для прикладу
+            return """Analyze the input tags..."""
 
     @classmethod
     def INPUT_TYPES(cls) -> Dict:
         return {
             "required": {
                 "raw_tags": ("STRING", {"multiline": True, "default": "Paste tags here..."}),
-                "model_name": (list(cls.MODEL_LIST.keys()), {"default": "Nous Hermes 2 Pro (Llama-3 8B)"}),
+                "model_name": (list(cls.MODEL_LIST.keys()),),
                 "gpu_layers": ("INT", {"default": -1, "min": -1, "max": 999}),
             },
         }
@@ -85,9 +87,6 @@ class TagSorter:
                 )
                 print(f"### TagSorter: Model downloaded successfully.")
             except Exception as e:
-                error_str = str(e)
-                if any(err_code in error_str for err_code in ["401", "404", "Repository Not Found"]):
-                    return f"[❌ ERROR] Model not found: '{repo_id}/{filename}'. Check MODEL_LIST."
                 return f"FATAL: Could not download model '{filename}'. Error: {e}"
 
         try:
@@ -111,15 +110,19 @@ class TagSorter:
             brace_count = 0
             end_brace_index = -1
             for i, char in enumerate(text[start_brace_index:]):
-                if char == '{': brace_count += 1
-                elif char == '}': brace_count -= 1
+                if char == '{':
+                    brace_count += 1
+                elif char == '}':
+                    brace_count -= 1
                 if brace_count == 0:
                     end_brace_index = start_brace_index + i
                     break
             if end_brace_index != -1:
-                return text[start_brace_index : end_brace_index + 1]
-            else: return ""
-        except Exception: return ""
+                return text[start_brace_index: end_brace_index + 1]
+            else:
+                return ""
+        except Exception:
+            return ""
 
     def parse_llm_response(self, response_text: str) -> Dict:
         cleaned_json = self.clean_json_response(response_text)
@@ -141,10 +144,14 @@ class TagSorter:
         current_category = None
         for line in lines:
             line = line.strip().lower()
-            if 'character' in line: current_category = "character"
-            elif 'clothing' in line or 'clothes' in line: current_category = "clothing"
-            elif 'location' in line or 'background' in line: current_category = "location"
-            elif 'enhancement' in line or 'quality' in line: current_category = "enhancement"
+            if 'character' in line:
+                current_category = "character"
+            elif 'clothing' in line or 'clothes' in line:
+                current_category = "clothing"
+            elif 'location' in line or 'background' in line:
+                current_category = "location"
+            elif 'enhancement' in line or 'quality' in line:
+                current_category = "enhancement"
             elif current_category and line and not line.startswith(('{', '}', '[', ']')):
                 tags = [tag.strip() for tag in line.split(',') if tag.strip()]
                 result[current_category].extend(tags)
@@ -158,12 +165,11 @@ class TagSorter:
         empty_result = ("", "", "", "")
         if not raw_tags or not raw_tags.strip() or raw_tags == "Paste tags here...":
             print("### TagSorter: Input is empty, ignoring.")
-            # --- ЗМІНА 2: Повертаємо простий кортеж, а не словник з "ui" ---
             return empty_result
 
-        if self.issues["errors"]:
-            error_report = "ERROR: Cannot run. Issues:\n\n" + "\n".join([f"- {e}" for e in self.issues["errors"]])
-            return (error_report,) + empty_result[1:]
+        # --- ВИДАЛЕНО БЛОК ПЕРЕВІРКИ ПОМИЛОК ЗАЛЕЖНОСТЕЙ ---
+        # if self.issues["errors"]:
+        #     ...
 
         model_info = self.MODEL_LIST[model_name]
         model = self.load_model(model_info, gpu_layers)
@@ -184,10 +190,11 @@ class TagSorter:
             )
 
             llm_output = response['choices'][0]['text'].strip()
-            print("--- RAW LLM OUTPUT ---\n", ll_output, "\n--- END RAW LL-M OUTPUT ---")
-            print(f"### TagSorter: LLM response received ({len(ll_output)} chars)")
+            # --- ВИПРАВЛЕНО ОПЕЧАТКУ (ll_output -> llm_output) ---
+            print("--- RAW LLM OUTPUT ---\n", llm_output, "\n--- END RAW LLM OUTPUT ---")
+            print(f"### TagSorter: LLM response received ({len(llm_output)} chars)")
 
-            sorted_tags_dict = self.parse_llm_response(ll_output)
+            sorted_tags_dict = self.parse_llm_response(llm_output)
 
             char_tags = ", ".join(sorted_tags_dict.get("character", []))
             cloth_tags = ", ".join(sorted_tags_dict.get("clothing", []))
