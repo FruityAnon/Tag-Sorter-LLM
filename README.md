@@ -46,9 +46,7 @@ Open the page with the image whose tags you want to use. Click on the button in 
 
 Go to the folder with your ComfyUI and where your files are located: `run_nvidia_gpu.bat`, `run_cpu.bat`, `run_nvidia_gpu_fast_fp16_accumulation.bat`
 
-Move the installation file `Install-Tag-Sorter-LLM.bat` here:
-
-### [Install Tag Sorter LLM.bat](https://github.com/FruityAnon/Tag-Sorter-LLM/releases/download/v1.0/Install-Tag-Sorter-LLM.bat)
+Move the installation file `Install-Tag-Sorter-LLM.bat` here: ### [Install Tag Sorter LLM.bat](https://github.com/FruityAnon/Tag-Sorter-LLM/releases/download/v1.0/Install-Tag-Sorter-LLM.bat)
 
 ## Installing the Browser Extensions
 
