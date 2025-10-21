@@ -34,6 +34,10 @@ A **button** will appear on the website under the image tags that copies the tag
 
 #### We must have [Build Tools for Visual Studio 2022](https://aka.ms/vs/17/release/vs_BuildTools.exe) installed in advance. 
 
+#### Select these items, you won't need the rest:
+
+![](images_rep/chrome_Load_Unpacked.png)
+
 Go to the folder with your ComfyUI and where your files are located: `run_nvidia_gpu.bat`, `run_cpu.bat`, `run_nvidia_gpu_fast_fp16_accumulation.bat`
 
 Move the installation file `Install-Tag-Sorter-LLM.bat` here:
