@@ -42,17 +42,6 @@ Move the installation file `Install-Tag-Sorter-LLM.bat` here:
 
 ### [Install Tag Sorter LLM.bat](https://github.com/FruityAnon/Tag-Sorter-LLM/releases/download/v1.0/Install-Tag-Sorter-LLM.bat)
 
-## How to Use the Extension
-Go to one of the supported sites:
-
-1. https://e621.net/
-2. https://rule34.xxx/
-3. https://e6ai.net/
-
-Open the page with the image whose tags you want to use. Click on the extension icon in your browser's toolbar. All tags will be automatically copied to your clipboard.
-
-Paste the copied text into the `raw_tags` field in the **Tag Sorter ✨** node in ComfyUI.
-
 ## Installing the Browser Extensions
 
 ### **Google Chrome**
