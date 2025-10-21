@@ -24,7 +24,7 @@ With an LLM-based sorter and convenient browser extensions, you can transform a 
 2. https://rule34.xxx/
 3. https://e6ai.net/
 
-Open the page with the image whose tags you want to use. Click on the extension icon in your browser's toolbar. All tags will be automatically copied to your clipboard.
+Open the page with the image whose tags you want to use. Click on the button in your browser's page. All tags will be automatically copied to your clipboard.
 
 Paste the copied text into the `raw_tags` field in the **Tag Sorter ✨** node in ComfyUI.
 
