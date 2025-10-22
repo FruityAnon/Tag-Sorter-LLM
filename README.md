@@ -6,6 +6,8 @@ The LLM Tag Sorter Suite is a set of tools designed to automate and significantl
 
 With an LLM-based sorter and convenient browser extensions, you can transform a chaotic set of tags into clearly organized categories.
 
+![](images_rep/all_node.png)
+
 ## Workflow: How It Works
 
 ### **Enable or disable Clipboard History in Windows**
