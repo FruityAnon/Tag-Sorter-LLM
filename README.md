@@ -20,11 +20,19 @@ With an LLM-based sorter and convenient browser extensions, you can transform a 
 
 ![](images_rep/enable-clipboard-history-W11.png)
 
-**Step 1:** Copying tags in the browser. Use the extension on one of the supported sites to instantly copy all image tags. 
+**Step 1:** Go to one of the supported sites:
 
-A **button** will appear on the website under the image tags that copies the tags to your clipboard.
+1. https://e621.net/
+2. https://rule34.xxx/
+3. https://e6ai.net/
+
+Open the page with the image whose tags you want to use. Click on the button in your browser's page. All tags will be automatically copied to your clipboard. Paste the copied text into the `raw_tags` field in the **Tag Sorter ✨** node in ComfyUI.
+
+*A* **button** *will appear on the website under the image tags that copies the tags to your clipboard.*
 
 ![](images_rep/site_button.png)
+
+
 
 **Step 2**: Pasting and sorting in ComfyUI. Paste the copied tags into the ***Tag Sorter ✨*** node. The model will automatically analyze and distribute them into categories.
 
@@ -40,20 +48,7 @@ A **button** will appear on the website under the image tags that copies the tag
 
 Go to the folder with your ComfyUI and where your files are located: `run_nvidia_gpu.bat`, `run_cpu.bat`, `run_nvidia_gpu_fast_fp16_accumulation.bat`
 
-Move the installation file `Install-Tag-Sorter-LLM.bat` here:
-
-### [Install Tag Sorter LLM.bat](https://github.com/FruityAnon/Tag-Sorter-LLM/releases/download/v1.0/Install-Tag-Sorter-LLM.bat)
-
-## How to Use the Extension
-Go to one of the supported sites:
-
-1. https://e621.net/
-2. https://rule34.xxx/
-3. https://e6ai.net/
-
-Open the page with the image whose tags you want to use. Click on the extension icon in your browser's toolbar. All tags will be automatically copied to your clipboard.
-
-Paste the copied text into the `raw_tags` field in the **Tag Sorter ✨** node in ComfyUI.
+Move the installation file [Install Tag Sorter LLM.bat](https://github.com/FruityAnon/Tag-Sorter-LLM/releases/download/v1.2/Install-Tag-Sorter-LLM.bat) here.
 
 ## Installing the Browser Extensions
 
