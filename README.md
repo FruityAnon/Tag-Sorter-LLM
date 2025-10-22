@@ -40,12 +40,6 @@ Open the page with the image whose tags you want to use. Click on the button in 
 
 # 🛠️ Installation
 
-#### We must have [Build Tools for Visual Studio 2022](https://aka.ms/vs/17/release/vs_BuildTools.exe) installed in advance. 
-
-#### Select these items, you won't need the rest:
-
-![](images_rep/Build_Tools_for_Visual_Studio_2022.png)
-
 Go to the folder with your ComfyUI and where your files are located: `run_nvidia_gpu.bat`, `run_cpu.bat`, `run_nvidia_gpu_fast_fp16_accumulation.bat`
 
 Move the installation file [Install Tag Sorter LLM.bat](https://github.com/FruityAnon/Tag-Sorter-LLM/releases/download/v1.2/Install-Tag-Sorter-LLM.bat) here.
