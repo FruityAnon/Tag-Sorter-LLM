@@ -18,6 +18,10 @@ set "WHEEL_URL_PY313=https://github.com/FruityAnon/Tag-Sorter-LLM/releases/downl
 set "ALL_DEPS_INSTALLED=true"
 set "LLAMA_CPP_INSTALLED=false"
 
+:: --- Встановлюємо змінні середовища для запобігання створення файлів ---
+set "PIP_NO_CACHE_DIR=1"
+set "PYTHONDONTWRITEBYTECODE=1"
+
 :: --- Крок 1: Попередня перевірка ---
 echo [Step 1/3] Checking for required dependencies...
 for %%p in (%PACKAGES_TO_CHECK%) do (
@@ -33,7 +37,7 @@ for %%p in (%PACKAGES_TO_CHECK%) do (
 if "!ALL_DEPS_INSTALLED!"=="true" (
     echo.
     echo [OK] All dependencies are already installed. Nothing to do.
-    goto :success_end
+    goto :cleanup
 )
 
 echo [!] Some dependencies are missing. Proceeding with installation...
@@ -45,7 +49,7 @@ if exist "%TARGET_FOLDER%\.git" (
     echo [INFO] Repository already exists.
 ) else (
     echo [INFO] Cloning repository...
-    git clone https://github.com/FruityAnon/Tag-Sorter-LLM.git "%TARGET_FOLDER%"
+    git clone https://github.com/FruityAnon/Tag-Sorter-LLM.git "%TARGET_FOLDER%" > nul 2>&1
     if not exist "%TARGET_FOLDER%\.git" (
         echo [ERROR] Failed to clone repository!
         goto :fail_end
@@ -58,16 +62,13 @@ echo.
 echo [Step 3/3] Installing dependencies...
 
 echo    -> Installing base packages (huggingface-hub, requests, etc.)...
-call "%PYTHON_EXE%" -m pip install huggingface-hub>=0.20.0 packaging>=24.0 requests>=2.32.3 hf_xet
+call "%PYTHON_EXE%" -m pip install --no-cache-dir huggingface-hub>=0.20.0 packaging>=24.0 requests>=2.32.3 hf_xet > nul 2>&1
 if %errorlevel% neq 0 (
     echo [ERROR] Failed to install base dependencies!
     goto :fail_end
 )
 echo    -> Base packages installed.
 echo.
-
-:: --- ВИДАЛЕНО PAUSE ТУТ ---
-:: Скрипт автоматично продовжує роботу без паузи
 
 :: Встановлюємо Llama CPP, тільки якщо його не вистачає
 if "!LLAMA_CPP_INSTALLED!"=="false" (
@@ -78,10 +79,10 @@ if "!LLAMA_CPP_INSTALLED!"=="false" (
 
     if "!PYTHON_VERSION_STRING:3.12=!" NEQ "!PYTHON_VERSION_STRING!" (
         echo       -> Python 3.12 detected. Downloading wheel...
-        call "%PYTHON_EXE%" -m pip install "%WHEEL_URL_PY312%"
+        call "%PYTHON_EXE%" -m pip install --no-cache-dir "%WHEEL_URL_PY312%" > nul 2>&1
     ) else if "!PYTHON_VERSION_STRING:3.13=!" NEQ "!PYTHON_VERSION_STRING!" (
         echo       -> Python 3.13 detected. Downloading wheel...
-        call "%PYTHON_EXE%" -m pip install "%WHEEL_URL_PY313%"
+        call "%PYTHON_EXE%" -m pip install --no-cache-dir "%WHEEL_URL_PY313%" > nul 2>&1
     ) else (
         echo [ERROR] Unsupported Python version: !PYTHON_VERSION_STRING!
         echo This installer only supports pre-compiled wheels for Python 3.12 and 3.13.
@@ -101,12 +102,21 @@ echo ===============================================================
 echo  All dependencies are configured successfully!
 echo  You can now launch ComfyUI.
 echo ===============================================================
-goto :success_end
+goto :cleanup
 
 :fail_end
 echo [ERROR] Installation failed. Please check the error messages above.
 pause
-exit /b 1
+goto :cleanup
+
+:cleanup
+:: --- Очищення залишкових файлів ---
+del "Installing*" > nul 2>&1
+del "Base*" > nul 2>&1
+del "Python*" > nul 2>&1
+del "llama-cpp-python*" > nul 2>&1
+del "Collecting*" > nul 2>&1
+del "Downloading*" > nul 2>&1
 
 :success_end
 echo.
